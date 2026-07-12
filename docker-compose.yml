@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: yogaos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: yogaosdb
+      POSTGRES_USER: yogaos
+      POSTGRES_PASSWORD: yogaos
+    ports:
+      - "5433:5432"
+    volumes:
+      - yogaos-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yogaos -d yogaosdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  yogaos-pgdata:
